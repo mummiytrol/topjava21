@@ -33,6 +33,7 @@
 <table border="1">
     <thead>
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Description</th>
         <th>Calories</th>
@@ -41,12 +42,29 @@
     <c:forEach items="${meals}" var="meal">
     <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealTo"/>
         <tr class="${meal.excess ? 'excess' : 'normal'}">
-        <td>${fn: formatDateTime(meal.dateTime)}</td>
-        <td>${meal.description}</td>
-        <td>${meal.calories}</td>
+            <td> ${meal.id}</td>
+            <td>${fn: formatDateTime(meal.dateTime)}</td>
+            <td>${meal.description}</td>
+            <td>${meal.calories}</td>
     </tr>
     </c:forEach>
 </table>
     </section>
+<br/>
+<br/>
+<form method="POST" action='meals' >
+    Date Time : <input
+        type="text" name="dateTime"
+        value="<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${meal.dateTime}" />" /> <br />
+    Description : <input
+        type="text" name="description"
+        value="<c:out value="${meal.description}" />" /> <br />
+    Calories : <input
+        type="text" name="calories"
+        value="<c:out value="${meal.calories}" />" /> <br />
+    <br/>
+     <input
+        type="submit" value="Submit" />
+</form>
 </body>
 </html>
