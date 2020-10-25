@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
+
 @Controller
 public class MealRestController {
     private MealService service;
@@ -41,8 +43,10 @@ public class MealRestController {
     }
 
     public Meal create(Meal meal) {
-        log.info("create {}", meal);
-        return service.create(meal, SecurityUtil.authUserId());
+        int userId = SecurityUtil.authUserId();
+        log.info("create {} {}", meal, userId);
+        checkNew(meal);
+        return service.create(meal, userId);
     }
 
     public void delete(int id) {

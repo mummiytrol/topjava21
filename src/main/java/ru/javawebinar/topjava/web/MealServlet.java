@@ -78,4 +78,9 @@ public class MealServlet extends HttpServlet {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.parseInt(paramId);
     }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+    }
 }

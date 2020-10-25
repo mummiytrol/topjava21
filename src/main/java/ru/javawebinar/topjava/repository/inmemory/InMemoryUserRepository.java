@@ -7,10 +7,7 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -24,26 +21,28 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public boolean delete(int id) {
         log.info("delete {}", id);
+        repository.remove(id);
         return true;
     }
 
     @Override
     public User save(User user) {
         log.info("save {}", user);
+        repository.put(counter.incrementAndGet(), user);
         return user;
     }
 
     @Override
     public User get(int id) {
         log.info("get {}", id);
-
         return repository.get(id);
     }
 
     @Override
     public List<User> getAll() {
         log.info("getAll");
-        return new ArrayList<>(repository.values());
+        Comparator<User> comparator = Comparator.comparing(User::getName).thenComparing(User::getEmail);
+        return repository.values().stream().sorted(comparator).collect(Collectors.toList());
 
     }
 
